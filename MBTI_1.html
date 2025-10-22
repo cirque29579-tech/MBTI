@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Career Assesment Profile</title>
+
+<style>
+:root{--page-bg:#f6f7fb;--card:#ffffff;--muted:#6b7280;--accent:#335d9f;--accent2:#2f9d6e;--border:#e6eef8;--paper-margin:20mm;}
+html,body{height:100%;margin:0;background:var(--page-bg);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+.container{max-width:940px;margin:20px auto;padding:18px;}
+.card{background:var(--card);border-radius:12px;padding:22px;box-shadow:0 8px 30px rgba(20,30,60,0.06);}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.brand{font-family:'Merriweather',serif;font-size:1.45rem;color:var(--accent);font-weight:700;}
+.meta{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:0.95rem;}
+.meta input{border:none;border-bottom:1px dashed #e6eef8;background:transparent;padding:4px 6px;font-size:0.95rem}
+#progress{font-weight:600;color:var(--muted);text-align:center;margin-bottom:12px}
+#questions{margin-top:8px}
+.q{border-radius:10px;background:#fbfeff;padding:12px;margin:12px 0;border:1px solid var(--border)}
+.q p{margin:0 0 8px;font-weight:700;color:#0f172a}
+.opts{display:flex;gap:12px;flex-wrap:wrap}
+.opt{flex:1 1 240px;padding:10px;border-radius:8px;border:1px solid rgba(15,23,42,0.04);cursor:pointer;background:transparent;display:flex;align-items:flex-start;gap:8px;transition:background 0.2s}
+.opt input{margin-top:4px}
+.opt.selected{background:#e8f5e8;border-color:var(--accent2);}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:14px}
+button.btn{background:var(--accent);color:white;border:0;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--muted)}
+.small{padding:8px 10px;font-size:.95rem}
+#results{display:none;margin-top:18px}
+.report-header{display:flex;justify-content:center;align-items:center; flex-direction: column; text-align: center;}
+.type-box {
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px;
+    background: #fff;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.type-box .type {
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.type-box .title {
+    font-family: 'Merriweather', serif;
+    font-size: 1.8rem;
+    color: #0b2540;
+    margin: 0;
+    font-weight: 600;
+}
+.report-sub{color:var(--muted);margin:2px 0 0 0; font-size: 1.1rem;}
+.report-block{padding:14px;border-radius:8px;background:#fbfdff;border:1px solid var(--border);margin-top:12px}
+.section-title{font-family:'Merriweather',serif;color:var(--accent);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid rgba(0,0,0,0.03)}
+#barChart{margin-top:10px}
+.trait-pair {display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0;}
+.trait-box {flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);text-align:center;background:#fbfeff;transition:background 0.2s;}
+.trait-box.selected {background:#e8f5e8;border-color:var(--accent2);font-weight:700;}
+.trait-desc {font-size:0.75rem;color:#6b7280;margin-top:4px;line-height:1.2;}
+.careers-table {width:100%;border-collapse:collapse;margin-top:10px;}
+.careers-table th,.careers-table td {border:1px solid var(--border);padding:8px;text-align:left;}
+.careers-table th {background:var(--accent);color:white;font-weight:bold;}
+.careers-table tr:nth-child(even) {background:#f8f9fa;}
+.salary-note {color:var(--muted);font-size:0.85rem;margin-top:8px;}
+.print-header {font-family:'Merriweather',serif;font-size:1.1rem;color:var(--accent);font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:20px;padding-top:5mm;}
+.print-header span {display:inline-block;}
+@media print{body,html{background:white;margin:0;padding:0;}
+.header-row,.meta input,#questions-section,.q,.opt,.opt.selected,#results,.report-block,.section-title,.report-title,.report-sub,.trait-pair,.trait-box,.print-header,.trait-desc,.careers-table{display:block !important;}
+.actions,#progress,button,input[type=radio]{display:none !important;}
+#questions-section{page-break-after:always;}
+#results{page-break-before:always;margin-top:0;padding-top:0;}
+.container{max-width:100%;padding:var(--paper-margin);margin:0;}
+.card{box-shadow:none;border:none;padding:0;}
+.opt.selected{background:#e8f5e8;border:2px solid var(--accent2);padding:8px;}
+.q{padding:15px;margin:8px 0;border:1px solid #ccc;page-break-inside:avoid;}
+.opts{flex-direction:row;gap:15px;page-break-inside:avoid;}
+.report-block{margin:10px 0;page-break-inside:avoid;}
+.trait-pair{margin:5px 0;}
+.trait-box{padding:8px;}
+.type-box { border: 2px solid var(--accent); box-shadow: none; }
+.print-header { position: static; margin-top: 0; page-break-inside: avoid; }
+@page { margin-top: 20mm; }
+.careers-table { width: 100%; }
+}
+@media (max-width:720px){.opts{flex-direction:column}.trait-pair{flex-direction:column;gap:8px;}.trait-box{width:100%;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<div class="header-row">
+  <div>
+    <div class="brand">Careers based on your strengths</div>
+    <div style="color:var(--muted);font-size:0.95rem"><span id="subtitleCount">40</span>-question MBTI-style assessment</div>
+  </div>
+  <div class="meta">Student: <input id="studentName" placeholder="(Student name)" /> Date: <input id="reportDate" /></div>
+</div>
+
+<div id="progress">Question 1 of 40</div>
+
+<section id="questions-section">
+  <form id="quizForm">
+    <div id="questions"></div>
+    <div class="actions">
+      <button type="button" id="seeResults" class="btn">See Results</button>
+    </div>
+  </form>
+</section>
+
+<section id="results" style="display:none;">
+  <div class="print-header">
+    <span id="printName"></span>
+    <span id="printDate"></span>
+  </div>
+  <div class="report-header">
+    <div class="type-box">
+      <h2 class="type" id="reportType"></h2>
+      <p class="title" id="reportTitle"></p>
+    </div>
+    <p class="report-sub" id="reportSub"></p>
+  </div>
+  <div id="barChart">
+    <div class="trait-pair" id="traitPairEI">
+      <div class="trait-box" id="traitBoxE">Extravert <span id="percentE"></span>%
+        <div class="trait-desc">Outgoing, sociable, and energized by social interaction.</div>
+      </div>
+      <div class="trait-box" id="traitBoxI">Introvert <span id="percentI"></span>%
+        <div class="trait-desc">Reflective, reserved, and energized by solitude.</div>
+      </div>
+    </div>
+    <div class="trait-pair" id="traitPairSN">
+      <div class="trait-box" id="traitBoxS">Sensing <span id="percentS"></span>%
+        <div class="trait-desc">Focused on the present, practical, and detail-oriented.</div>
+      </div>
+      <div class="trait-box" id="traitBoxN">Intuitive <span id="percentN"></span>%
+        <div class="trait-desc">Imaginative, future-focused, and big-picture thinker.</div>
+      </div>
+    </div>
+    <div class="trait-pair" id="traitPairTF">
+      <div class="trait-box" id="traitBoxT">Thinking <span id="percentT"></span>%
+        <div class="trait-desc">Logical, objective, and decision-based on facts.</div>
+      </div>
+      <div class="trait-box" id="traitBoxF">Feeling <span id="percentF"></span>%
+        <div class="trait-desc">Empathetic, values-driven, and considers emotions.</div>
+      </div>
+    </div>
+    <div class="trait-pair" id="traitPairJP">
+      <div class="trait-box" id="traitBoxJ">Judging <span id="percentJ"></span>%
+        <div class="trait-desc">Organized, planned, and decisive.</div>
+      </div>
+      <div class="trait-box" id="traitBoxP">Perceiving <span id="percentP"></span>%
+        <div class="trait-desc">Flexible, spontaneous, and open to change.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-block">
+    <h3 class="section-title">Type Summary</h3>
+    <p id="summary"></p>
+    <p><strong>Likes:</strong> <span id="likes"></span></p>
+    <p><strong>Strengths:</strong> <span id="strengths"></span></p>
+    <p><strong>Areas to Improve:</strong> <span id="growth"></span></p>
+  </div>
+  <div class="report-block">
+    <h3 class="section-title">Most Compatible Types</h3>
+    <div id="compatible"></div>
+  </div>
+  <div class="report-block">
+    <h3 class="section-title">Least Compatible Types</h3>
+    <div id="incompatible"></div>
+  </div>
+  <div class="report-block">
+    <h3 class="section-title">Famous <span id="famousType"></span>s</h3>
+    <ul id="famous"></ul>
+  </div>
+  <div class="report-block">
+    <h3 class="section-title"> 20 Career Matches</h3>
+    <table class="careers-table">
+      <thead>
+        <tr>
+          <th>Career Match</th>
+          <th>Reason for Fit</th>
+          <th>Annual Salary Range</th>
+        </tr>
+      </thead>
+      <tbody id="careers-tbody"></tbody>
+    </table>
+    <p class="salary-note">*Salary estimates based on 2025 U.S. Bureau of Labor Statistics and typical industry ranges. Local markets vary.</p>
+  </div>
+  <div class="report-block">
+    <h3 class="section-title">High School Prep</h3>
+    <p id="prep"></p>
+  </div>
+</section>
+
+<!-- Updated actions: removed Copy button, added Review Questions -->
+<div class="actions" id="postActions" style="display:none;margin-top:14px">
+  <button id="savePdf" class="btn">Save Results (PDF)</button>
+  <button id="reviewQuestions" class="ghost small">Review Questions</button>
+</div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM fully loaded, starting initialization...");
+
+  // 40 questions total (10 per pair: E/I, S/N, T/F, J/P)
+  const questions = [
+    // --- Original 20 ---
+    {q:"When faced with a group project, you prefer to…",a:[["work independently","I"],["brainstorm with others","E"]]},
+    {q:"You make decisions based more on…",a:[["facts and logic","T"],["feelings and values","F"]]},
+    {q:"When learning something new, you like to…",a:[["focus on details and practice","S"],["explore theories and ideas","N"]]},
+    {q:"Your workspace or notes are usually…",a:[["orderly and structured","J"],["flexible and spontaneous","P"]]},
+    {q:"You get energy from…",a:[["quiet time alone","I"],["being around others","E"]]},
+    {q:"You trust…",a:[["experience","S"],["imagination","N"]]},
+    {q:"When solving problems, you…",a:[["analyze logically","T"],["consider how people feel","F"]]},
+    {q:"You prefer to…",a:[["plan ahead","J"],["see what happens","P"]]},
+    {q:"You recharge by…",a:[["solitude","I"],["socializing","E"]]},
+    {q:"You notice first…",a:[["what's real and present","S"],["what could be possible","N"]]},
+    {q:"You tend to…",a:[["stay objective","T"],["seek harmony","F"]]},
+    {q:"Deadlines feel best when…",a:[["met early","J"],["met barely on time","P"]]},
+    {q:"At a party you are more likely to…",a:[["talk with a few close friends","I"],["mingle widely","E"]]},
+    {q:"You enjoy subjects that…",a:[["teach practical skills","S"],["involve creativity or ideas","N"]]},
+    {q:"Your friends say you're…",a:[["logical and fair","T"],["empathetic and caring","F"]]},
+    {q:"When organizing homework, you…",a:[["make lists and schedules","J"],["go with the flow","P"]]},
+    {q:"You often…",a:[["reflect before acting","I"],["act then reflect","E"]]},
+    {q:"You'd rather…",a:[["follow proven steps","S"],["try new methods","N"]]},
+    {q:"You value…",a:[["truth","T"],["compassion","F"]]},
+    {q:"You like rules to be…",a:[["clear and firm","J"],["flexible","P"]]},
+
+    // --- New 20 to reach 40 ---
+    {q:"In class discussions, you usually…",a:[["listen first, then share","I"],["jump in with ideas","E"]]},
+    {q:"When reading, you focus more on…",a:[["concrete facts/events","S"],["themes/meanings","N"]]},
+    {q:"If a friend asks for advice, you give…",a:[["objective pros/cons","T"],["what feels right for them","F"]]},
+    {q:"Your schedule tends to be…",a:[["planned day-to-day","J"],["open to changes","P"]]},
+    {q:"New clubs or groups feel…",a:[["draining at first","I"],["exciting and energizing","E"]]},
+    {q:"In science labs, you prefer…",a:[["step-by-step procedures","S"],["designing the experiment","N"]]},
+    {q:"When judging a debate, you weigh…",a:[["logic and evidence","T"],["human impact","F"]]},
+    {q:"For big assignments, you…",a:[["start early with milestones","J"],["work in bursts near the end","P"]]},
+    {q:"On a free afternoon, you’d rather…",a:[["have quiet ‘me time’","I"],["hang out with friends","E"]]},
+    {q:"When telling a story, you share…",a:[["exact details","S"],["the overall idea","N"]]},
+    {q:"When resolving conflict, you push for…",a:[["fairness and rules","T"],["feelings and care","F"]]},
+    {q:"Your backpack/locker is…",a:[["sorted and tidy","J"],["organized ‘in your own way’","P"]]},
+    {q:"Meeting new people is…",a:[["a bit tiring","I"],["energizing","E"]]},
+    {q:"In math word problems, you prefer…",a:[["realistic examples","S"],["abstract puzzles","N"]]},
+    {q:"Group decisions should be…",a:[["based on criteria","T"],["based on consensus","F"]]},
+    {q:"When plans change suddenly, you…",a:[["feel thrown off","J"],["adapt quickly","P"]]},
+    {q:"Your ideal study environment is…",a:[["quiet and private","I"],["lively but focused","E"]]},
+    {q:"When learning history, you like…",a:[["timelines and facts","S"],["causes and patterns","N"]]},
+    {q:"Choosing courses, you prefer…",a:[["what builds skills","T"],["what inspires you","F"]]},
+    {q:"On a project team, you’re the one who…",a:[["creates the checklist","J"],["keeps options open","P"]]}
+  ];
+
+  const qContainer = document.getElementById('questions');
+  if (!qContainer) {
+    console.error("Error: 'questions' element not found!");
+    return;
+  }
+
+  // Set counts based on total questions
+  document.getElementById('subtitleCount').textContent = questions.length.toString();
+  document.getElementById('progress').textContent = `Question 1 of ${questions.length}`;
+
+  // Render questions
+  let qHtml = "";
+  questions.forEach((obj, i) => {
+    qHtml += `<div class="q"><p>${i+1}. ${obj.q}</p><div class="opts">`;
+    obj.a.forEach((pair, ix) => {
+      const id = `q${i}_${ix}`;
+      qHtml += `<label class="opt" data-value="${pair[1]}"><input type="radio" name="q${i}" value="${pair[1]}" id="${id}"><span>${pair[0]}</span></label>`;
+    });
+    qHtml += "</div></div>";
+  });
+  qContainer.innerHTML = qHtml;
+
+  // Update selected styling and progress on change
+  function refreshSelectionsAndProgress() {
+    const done = document.querySelectorAll('input[type=radio]:checked').length;
+    const total = questions.length;
+    const nextNum = Math.min(done + 1, total);
+    document.getElementById("progress").textContent = `Question ${nextNum} of ${total}`;
+    document.querySelectorAll('.opt').forEach(opt => opt.classList.remove('selected'));
+    document.querySelectorAll('input[type=radio]:checked').forEach(checked => {
+      const label = checked.closest('.opt');
+      if (label) label.classList.add('selected');
+    });
+  }
+
+  document.querySelectorAll("input[type=radio]").forEach(inp => {
+    inp.addEventListener("change", refreshSelectionsAndProgress);
+  });
+
+  // See Results
+  document.getElementById('seeResults').addEventListener('click', () => {
+    const answers = document.querySelectorAll('input[type=radio]:checked');
+    if (answers.length < questions.length) {
+      alert("Please answer all questions.");
+      return;
+    }
+    const scores = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+    answers.forEach(a => { scores[a.value]++; });
+    const type =
+      (scores.I >= scores.E ? 'I' : 'E') +
+      (scores.S >= scores.N ? 'S' : 'N') +
+      (scores.T >= scores.F ? 'T' : 'F') +
+      (scores.J >= scores.P ? 'J' : 'P');
+    renderResults(type, scores, questions.length);
+  });
+
+  // NEW: Review Questions — return to answers, preserve selections
+  const reviewBtn = document.getElementById('reviewQuestions');
+  reviewBtn.addEventListener('click', () => {
+    // Hide results, show questions
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('questions-section').style.display = 'block';
+    // Update progress and re-apply selected styling
+    refreshSelectionsAndProgress();
+    // Scroll back to top of questions
+    document.getElementById('questions-section').scrollIntoView({behavior:'smooth'});
+  });
+
+  function renderResults(type, scores, totalQuestions) {
+    const studentName = document.getElementById('studentName').value || 'Student';
+    const reportDate = document.getElementById('reportDate').value || new Date().toLocaleDateString();
+    document.getElementById('printName').textContent = `Student: ${studentName}`;
+    document.getElementById('printDate').textContent = `Date: ${reportDate}`;
+    const totalPerPair = totalQuestions / 4; // 10 with 40 Qs
+
+    // Percentages
+    document.getElementById('percentE').textContent = Math.round((scores.E / totalPerPair) * 100);
+    document.getElementById('percentI').textContent = Math.round((scores.I / totalPerPair) * 100);
+    document.getElementById('percentS').textContent = Math.round((scores.S / totalPerPair) * 100);
+    document.getElementById('percentN').textContent = Math.round((scores.N / totalPerPair) * 100);
+    document.getElementById('percentT').textContent = Math.round((scores.T / totalPerPair) * 100);
+    document.getElementById('percentF').textContent = Math.round((scores.F / totalPerPair) * 100);
+    document.getElementById('percentJ').textContent = Math.round((scores.J / totalPerPair) * 100);
+    document.getElementById('percentP').textContent = Math.round((scores.P / totalPerPair) * 100);
+
+    // Highlight trait winners
+    document.querySelectorAll('.trait-box').forEach(box => box.classList.remove('selected'));
+    if (type.includes('E')) document.getElementById('traitBoxE').classList.add('selected'); else document.getElementById('traitBoxI').classList.add('selected');
+    if (type.includes('S')) document.getElementById('traitBoxS').classList.add('selected'); else document.getElementById('traitBoxN').classList.add('selected');
+    if (type.includes('T')) document.getElementById('traitBoxT').classList.add('selected'); else document.getElementById('traitBoxF').classList.add('selected');
+    if (type.includes('J')) document.getElementById('traitBoxJ').classList.add('selected'); else document.getElementById('traitBoxP').classList.add('selected');
+
+    // Populate report content
+    const tData = typeData[type];
+    document.getElementById('reportType').textContent = type;
+    document.getElementById('reportTitle').textContent = tData.title;
+    document.getElementById('reportSub').textContent = tData.subtitle;
+    document.getElementById('summary').textContent = tData.summary;
+    document.getElementById('likes').textContent = tData.likes;
+    document.getElementById('strengths').textContent = tData.strengths;
+    document.getElementById('growth').textContent = tData.growth;
+    document.getElementById('compatible').innerHTML = tData.compatible.map(t => `<p><strong>${t.type}</strong> — ${t.desc}</p>`).join('');
+    document.getElementById('incompatible').innerHTML = tData.incompatible.map(t => `<p><strong>${t.type}</strong> — ${t.desc}</p>`).join('');
+    document.getElementById('famousType').textContent = type;
+    document.getElementById('famous').innerHTML = tData.famous.map(name => `<li>${name}</li>`).join('');
+    document.getElementById('prep').textContent = tData.prep;
+
+    // Careers table
+    const careersTbody = document.getElementById('careers-tbody');
+    let careersHtml = '';
+    tData.careers.forEach(c => {
+      careersHtml += `<tr>
+        <td><strong>${c.title}</strong></td>
+        <td>${c.why}</td>
+        <td>${c.salary}</td>
+      </tr>`;
+    });
+    careersTbody.innerHTML = careersHtml;
+
+    // Show results, keep action buttons visible
+    document.getElementById('questions-section').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('postActions').style.display = 'flex';
+    document.getElementById('results').scrollIntoView({behavior: 'smooth'});
+  }
+});
+
+// ---- typeData (full 16 types) ----
+const typeData = {
+    ISTJ:{title:"The Organizer",subtitle:"Practical • Responsible • Detail-Oriented",summary:"ISTJs are grounded, reliable individuals who value structure and tradition. They thrive in environments where rules are clear and tasks are completed efficiently, often excelling in roles that require precision and consistency. With a strong sense of duty, ISTJs are dependable and methodical, preferring to work with facts and proven methods rather than abstract ideas. They are patient and thorough, ensuring high-quality results through careful planning and attention to detail. However, they may resist change and prefer stability, which can sometimes limit adaptability in dynamic situations.",likes:"Order, clear expectations, routines, and practical results.",strengths:"Organization, dependability, honesty, strong memory, and accountability.",growth:"Can become rigid or overly critical; learning flexibility and empathy helps balance their focus on rules.",compatible:[{type:"ESTJ",desc:"Shares love for order and practicality."},{type:"ESFJ",desc:"Offers warmth and organization."},{type:"ISFJ",desc:"Both value responsibility and loyalty."},{type:"ISTP",desc:"Balances structure with adaptability."}],incompatible:[{type:"ENFP",desc:"Clash on order vs. spontaneity."},{type:"INFP",desc:"Too idealistic for ISTJ's practicality."}],famous:["Adin Ross","Anthony Fontana","Ben Shapiro","Billy Collins","Brian Cox","Charlie Munger","Cody Rhodes","Douglas Murray","Dr. Darren Schmidt","Edward Snowden"],careers:[{title:"Accountant",why:"Enjoys structure and accuracy with numbers.",salary:"$60K - $130K"},{title:"Engineer",why:"Values precise design and systems logic.",salary:"$80K - $160K"},{title:"Police Officer",why:"Respects authority and procedures.",salary:"$50K - $100K"},{title:"Military Officer",why:"Thrives in structured hierarchies.",salary:"$60K - $120K"},{title:"Logistics Manager",why:"Optimizes systems efficiently.",salary:"$70K - $140K"},{title:"Financial Analyst",why:"Data-driven decision making.",salary:"$70K - $150K"},{title:"Librarian",why:"Catalogs and organizes information.",salary:"$50K - $90K"},{title:"Project Manager",why:"Keeps projects on time and budget.",salary:"$80K - $160K"},{title:"Auditor",why:"Detail-focused and rule-conscious.",salary:"$60K - $130K"},{title:"Data Analyst",why:"Finds satisfaction in accuracy.",salary:"$60K - $130K"},{title:"IT Administrator",why:"Manages systems and protocols.",salary:"$70K - $140K"},{title:"Quality Inspector",why:"Ensures high standards.",salary:"$50K - $100K"},{title:"Archivist",why:"Preserves records meticulously.",salary:"$50K - $90K"},{title:"Customs Officer",why:"Enforces clear laws.",salary:"$50K - $100K"},{title:"Bank Teller",why:"Reliable and orderly structure.",salary:"$30K - $60K"},{title:"Insurance Underwriter",why:"Evaluates risk by rules.",salary:"$60K - $120K"},{title:"Operations Coordinator",why:"Optimizes workflows.",salary:"$60K - $120K"},{title:"Technical Writer",why:"Documents processes clearly.",salary:"$60K - $120K"},{title:"Statistician",why:"Logic in quantitative data.",salary:"$70K - $150K"},{title:"Real Estate Appraiser",why:"Objective property standards.",salary:"$50K - $110K"}],prep:"Take accounting, computer science, or business classes. Volunteer managing club finances or organizing events."},
+    ISFJ:{title:"The Nurturer",subtitle:"Loyal • Caring • Detail-focused",summary:"ISFJs are compassionate and conscientious individuals who prioritize harmony and support for others. They excel in roles where they can provide practical help and maintain traditions, often remembering important details that make people feel cared for. With a strong sense of responsibility, ISFJs are reliable and patient, dedicating themselves to tasks that benefit their community or loved ones. They prefer stable environments and clear guidelines, allowing them to focus on efficiency and kindness in their actions. However, they may struggle with change or confrontation, sometimes putting others' needs above their own.",likes:"Stability, appreciation, helping others, and traditions.",strengths:"Empathy, patience, responsibility, and attention to detail.",growth:"Can neglect their own needs; learning to say no fosters balance.",compatible:[{type:"ESFP",desc:"Balances practicality with fun."},{type:"ESTJ",desc:"Shares responsibility and structure."},{type:"ISFP",desc:"Connects emotionally and quietly."},{type:"INFJ",desc:"Both value harmony and depth."}],incompatible:[{type:"ENTP",desc:"Drained by debating unpredictability."},{type:"INTP",desc:"Different priorities in feelings vs. logic."}],famous:["Adam Sandler","Amy Adams","Andy (Andrew) Lawrence","Baker Mayfield","Bret Weinstein","Casey Affleck","Casey Zander","Chris Evans","Chris Williamson","Clint Eastwood"],careers:[{title:"Nurse",why:"Caring, detail-oriented, patient under pressure.",salary:"$60K - $120K"},{title:"Teacher",why:"Nurtures young minds with order.",salary:"$50K - $100K"},{title:"Social Worker",why:"Helps others find stability.",salary:"$50K - $90K"},{title:"Administrative Assistant",why:"Organizes with care.",salary:"$40K - $80K"},{title:"Counselor",why:"Balances empathy with structure.",salary:"$50K - $100K"},{title:"Healthcare Technician",why:"Precision and compassion.",salary:"$40K - $80K"},{title:"Pharmacist",why:"Ensures safe medication use.",salary:"$100K - $160K"},{title:"Event Planner",why:"Creates memorable experiences.",salary:"$50K - $100K"},{title:"HR Specialist",why:"Supports people fairly.",salary:"$60K - $120K"},{title:"Dietitian",why:"Blends care with science.",salary:"$60K - $110K"},{title:"Librarian",why:"Quiet service to community.",salary:"$50K - $90K"},{title:"Customer Service Rep",why:"Helpful and professional.",salary:"$35K - $70K"},{title:"Occupational Therapist",why:"Regains confidence and ability.",salary:"$80K - $130K"},{title:"Special Education Teacher",why:"Deep compassion and patience.",salary:"$50K - $100K"},{title:"Medical Coder",why:"Organization behind scenes.",salary:"$45K - $90K"},{title:"Records Clerk",why:"Maintains vital details.",salary:"$40K - $80K"},{title:"Community Outreach Worker",why:"Connects meaningfully.",salary:"$45K - $90K"},{title:"School Counselor",why:"Guides with empathy.",salary:"$50K - $100K"},{title:"Nonprofit Coordinator",why:"Ensures help effectively.",salary:"$50K - $100K"},{title:"Dental Hygienist",why:"Care and precision daily.",salary:"$70K - $110K"}],prep:"Volunteer in tutoring/healthcare. Take psychology and anatomy. Lead service clubs like Key Club."},
+    INFJ:{title:"The Advocate",subtitle:"Insightful • Idealistic • Empathetic",summary:"INFJs are visionary idealists driven by a deep sense of purpose and empathy for others. They possess keen intuition and insight, often understanding complex human emotions and motivations better than most. Committed to their values, INFJs strive to make the world better, excelling in roles that allow them to counsel, inspire, or create meaningful change. They are strategic thinkers who plan long-term, balancing creativity with determination to achieve their goals. However, their sensitivity can lead to burnout if they absorb too much negativity, requiring time for reflection and self-care.",likes:"Deep conversations, personal growth, meaningful causes.",strengths:"Empathy, insight, creativity, determination.",growth:"May overextend helping others; learning boundaries strengthens impact.",compatible:[{type:"ENFP",desc:"Shares passion for vision."},{type:"ENFJ",desc:"Mutual empathy and goals."},{type:"INTJ",desc:"Balances intuition with strategy."},{type:"INFP",desc:"Deep emotional resonance."}],incompatible:[{type:"ESTP",desc:"INFJ seeks depth; ESTP seeks excitement."},{type:"ISTP",desc:"Misunderstand communication styles."}],famous:["Alex Turner","Amal Clooney","Ana De Armas","Andrew Garfield","Audrey Hepburn","Bradley Cooper","Brian May","Cait Curley","Camila Cabello","Casey Anthony"],careers:[{title:"Psychologist",why:"Understands people deeply.",salary:"$80K - $150K"},{title:"Writer",why:"Expresses abstract ideas creatively.",salary:"$50K - $110K"},{title:"Teacher",why:"Inspires personal growth.",salary:"$50K - $100K"},{title:"Therapist",why:"Provides emotional guidance.",salary:"$60K - $120K"},{title:"Nonprofit Director",why:"Leads with purpose.",salary:"$70K - $140K"},{title:"Human Rights Advocate",why:"Champions fairness.",salary:"$50K - $100K"},{title:"Artist",why:"Expresses emotion through art.",salary:"$40K - $90K"},{title:"Researcher",why:"Seeks truth in behavior.",salary:"$60K - $130K"},{title:"Counselor",why:"Guides growth with understanding.",salary:"$50K - $100K"},{title:"Minister/Clergy",why:"Moral and emotional support.",salary:"$50K - $100K"},{title:"Editor",why:"Shapes ideas meaningfully.",salary:"$50K - $110K"},{title:"Social Worker",why:"Empathy into practical help.",salary:"$50K - $90K"},{title:"Professor",why:"Shares deep academic insights.",salary:"$70K - $150K"},{title:"Career Coach",why:"Guides to meaningful paths.",salary:"$60K - $120K"},{title:"Mediator",why:"Resolves with compassion.",salary:"$60K - $120K"},{title:"Graphic Designer",why:"Communicates emotion visually.",salary:"$50K - $100K"},{title:"Philosopher",why:"Explores truth and ethics.",salary:"$60K - $130K"},{title:"Policy Analyst",why:"Improves society thoughtfully.",salary:"$70K - $140K"},{title:"Speech Pathologist",why:"Supports communication growth.",salary:"$70K - $120K"},{title:"Community Organizer",why:"Inspires positive change.",salary:"$50K - $100K"}],prep:"Join writing clubs, volunteer mentoring. Study psychology/philosophy to deepen empathy."},
+    INTJ:{title:"The Strategist",subtitle:"Visionary • Independent • Analytical",summary:"INTJs are strategic masterminds with a talent for long-term planning and innovative problem-solving. They approach life with logic and foresight, constantly seeking ways to improve systems and achieve efficiency. Independent and determined, INTJs excel in complex environments where they can apply their intellectual depth to challenging goals. They value competence and knowledge, often pursuing expertise in fields that align with their visions. However, their high standards can make them appear aloof or critical, benefiting from developing emotional awareness to enhance relationships.",likes:"Challenges, innovation, long-term planning.",strengths:"Analytical thinking, determination, confidence.",growth:"Can seem detached; developing patience balances intellect.",compatible:[{type:"ENTP",desc:"Intellectual synergy with ideas."},{type:"INFJ",desc:"Shares vision and purpose."},{type:"ENTJ",desc:"Shared ambition and logic."},{type:"INTP",desc:"Intellectual curiosity connection."}],incompatible:[{type:"ESFP",desc:"Different pace—planning vs. moment."},{type:"ISFP",desc:"Logic vs. emotion values clash."}],famous:["50 Cent","Addison Rae","Adeptthebest","Alex Becker","Alex Iman","Alex Rodriguez","Ali Wong","Allen Iverson","Amber Heard","Andrew Yang"],careers:[{title:"Software Engineer",why:"Creates efficient solutions.",salary:"$80K - $170K"},{title:"Scientist",why:"Explores theories logically.",salary:"$75K - $160K"},{title:"Architect",why:"Creativity with structure.",salary:"$75K - $160K"},{title:"Engineer",why:"Strategic design for problems.",salary:"$80K - $160K"},{title:"Data Scientist",why:"Finds patterns and optimizes.",salary:"$90K - $180K"},{title:"Financial Analyst",why:"Strategy to predict/plan.",salary:"$70K - $150K"},{title:"Project Manager",why:"Executes visions precisely.",salary:"$80K - $160K"},{title:"Research Director",why:"Guides insight discovery.",salary:"$90K - $180K"},{title:"Economist",why:"Analyzes trends logically.",salary:"$70K - $160K"},{title:"Product Designer",why:"Improves systems innovatively.",salary:"$80K - $160K"},{title:"Urban Planner",why:"Logical design for communities.",salary:"$60K - $130K"},{title:"Cybersecurity Analyst",why:"Strategically defends data.",salary:"$90K - $170K"},{title:"Professor",why:"Shares knowledge methodically.",salary:"$70K - $150K"},{title:"Consultant",why:"Long-term organizational solutions.",salary:"$80K - $160K"},{title:"AI Engineer",why:"Logic and foresight innovation.",salary:"$100K - $200K"},{title:"Patent Lawyer",why:"Precision and analysis.",salary:"$120K - $250K"},{title:"Mathematician",why:"Complex problem solving.",salary:"$80K - $180K"},{title:"Statistician",why:"Logic in decision models.",salary:"$70K - $150K"},{title:"Operations Analyst",why:"Refines processes efficiently.",salary:"$70K - $140K"},{title:"Strategic Planner",why:"Designs ambitious roadmaps.",salary:"$80K - $160K"}],prep:"Excel in math/science/debate. Lead robotics/Model UN clubs for strategic teamwork."},
+    ENTJ:{title:"The Commander",subtitle:"Confident • Decisive • Strategic Leader",summary:"ENTJs are bold leaders with a natural ability to organize and inspire others toward ambitious goals. They thrive on challenges, using their strategic thinking and charisma to drive efficiency and innovation in any endeavor. Decisive and confident, ENTJs excel in high-stakes environments where they can implement visions and achieve tangible results. They value competence and productivity, often motivating teams through clear direction and high expectations. However, their assertiveness can sometimes overlook emotions, benefiting from empathy to build stronger collaborations.",likes:"Goal setting, leadership, achievement.",strengths:"Confidence, organization, determination.",growth:"May appear domineering; patience fosters teamwork.",compatible:[{type:"INTJ",desc:"Strategy and innovation focus."},{type:"ENTP",desc:"Energetic debates and ideas."},{type:"ENFP",desc:"Logic with creativity balance."},{type:"ESTJ",desc:"Shared goals through structure."}],incompatible:[{type:"ISFP",desc:"Flexibility vs. ENTJ intensity."},{type:"INFP",desc:"Harmony vs. assertiveness tension."}],famous:["Abigail Spencer","Adele","Alice Levine","Amy Schumer","Anna Kendrick","Axel Bernabe","Beck Hansen","Belle Delphine","Bob Iger","Boris Johnson"],careers:[{title:"CEO/Entrepreneur",why:"Thrives in leadership decisions.",salary:"$100K - $300K"},{title:"Business Executive",why:"Drives growth strategically.",salary:"$100K - $250K"},{title:"Lawyer",why:"Logic and persuasion mastery.",salary:"$120K - $250K"},{title:"Management Consultant",why:"Optimizes organizations.",salary:"$90K - $180K"},{title:"Sales Director",why:"Confidence and motivation.",salary:"$90K - $200K"},{title:"Engineer",why:"Structure and vision solving.",salary:"$80K - $160K"},{title:"Project Manager",why:"Leads teams to results.",salary:"$80K - $160K"},{title:"Investment Banker",why:"Decisive opportunity analysis.",salary:"$100K - $250K"},{title:"Operations Director",why:"Ensures smooth efficiency.",salary:"$90K - $180K"},{title:"Political Strategist",why:"Influences large outcomes.",salary:"$80K - $160K"},{title:"Corporate Trainer",why:"Inspires goal achievement.",salary:"$70K - $140K"},{title:"Marketing Executive",why:"Analysis with creativity.",salary:"$90K - $180K"},{title:"Data Analyst",why:"Numbers into strategy.",salary:"$60K - $130K"},{title:"Real Estate Developer",why:"Vision and action balance.",salary:"$80K - $200K"},{title:"Venture Capitalist",why:"Drives innovation investment.",salary:"$100K - $250K"},{title:"Policy Advisor",why:"Shapes organizational direction.",salary:"$80K - $160K"},{title:"Military Officer",why:"Structured leadership excellence.",salary:"$60K - $120K"},{title:"Business Professor",why:"Teaches leadership analysis.",salary:"$80K - $170K"},{title:"Tech Founder",why:"Builds innovative systems.",salary:"$100K - $300K"},{title:"Executive Producer",why:"Coordinates vision and execution.",salary:"$90K - $200K"}],prep:"Take leadership roles in clubs. Study economics/communication/negotiation."},
+    ENTP:{title:"The Visionary",subtitle:"Inventive • Energetic • Curious",summary:"ENTPs are innovative thinkers who love debating ideas and exploring possibilities with quick wit and enthusiasm. They thrive on intellectual challenges, often devising creative solutions to complex problems in dynamic environments. Adaptable and resourceful, ENTPs excel at brainstorming and inspiring others with their visionary outlook. They value freedom and novelty, constantly seeking new experiences to fuel their curiosity. However, their love for debate can sometimes overlook details, benefiting from focus to bring ideas to fruition.",likes:"Freedom, innovation, mental challenges.",strengths:"Creativity, adaptability, enthusiasm.",growth:"May lose focus; discipline realizes ideas.",compatible:[{type:"INTJ",desc:"Energy with strategic focus."},{type:"ENFP",desc:"Imagination and openness shared."},{type:"ENTJ",desc:"Innovation and execution push."},{type:"INFP",desc:"Logic with sensitivity balance."}],incompatible:[{type:"ISFJ",desc:"Unpredictability stresses ISFJ."},{type:"ISTJ",desc:"Tradition vs. spontaneity clash."}],famous:["ASAP Rocky","Aaron Gillespie","Adam Driver","Adam Neely","Alan Hofmanis","Alec Benjamin","Alex O'Conner","Alexandra Botez","Alicia Keys","Amy Winehouse"],careers:[{title:"Entrepreneur",why:"Turns ideas into ventures.",salary:"$80K - $200K"},{title:"Marketing Specialist",why:"Creativity engages audiences.",salary:"$60K - $130K"},{title:"Software Developer",why:"Innovative tech solutions.",salary:"$80K - $170K"},{title:"Lawyer",why:"Enjoys argument and logic.",salary:"$120K - $250K"},{title:"Inventor",why:"Explores technologies fearlessly.",salary:"$70K - $150K"},{title:"Journalist",why:"Bold questions, dynamic stories.",salary:"$50K - $110K"},{title:"Consultant",why:"Innovative strategies advised.",salary:"$80K - $160K"},{title:"Designer",why:"Imagination with function.",salary:"$50K - $110K"},{title:"Public Speaker",why:"Charisma inspires others.",salary:"$60K - $150K"},{title:"Film Director",why:"Vision into engaging media.",salary:"$70K - $160K"},{title:"Political Campaigner",why:"Persuasion and debate thrive.",salary:"$60K - $130K"},{title:"Game Developer",why:"Creativity and logic blend.",salary:"$70K - $150K"},{title:"Engineer",why:"Complex problems invented.",salary:"$80K - $160K"},{title:"Product Manager",why:"Shapes ideas into products.",salary:"$90K - $180K"},{title:"Researcher",why:"Explores knowledge frontiers.",salary:"$70K - $150K"},{title:"Advertising Executive",why:"Fast-paced idea exchange.",salary:"$80K - $170K"},{title:"Comedian",why:"Wit and timing mastery.",salary:"$50K - $150K"},{title:"Talent Agent",why:"Connects creative opportunities.",salary:"$60K - $130K"},{title:"Tech Entrepreneur",why:"Disruptive solutions invented.",salary:"$100K - $250K"},{title:"Innovation Consultant",why:"Guides creative success.",salary:"$80K - $160K"}],prep:"Join debate/entrepreneurship/film clubs. Practice finishing projects."},
+    ENFJ:{title:"The Protagonist",subtitle:"Charismatic • Altruistic • Inspiring",summary:"ENFJs are charismatic leaders who inspire and motivate others with their empathy and vision for positive change. They excel at understanding people's needs and fostering growth in group settings through strong interpersonal skills. Passionate about causes, ENFJs often take on roles where they can guide and support, creating harmonious environments. They are organized and decisive, balancing intuition with practicality to achieve shared goals. However, their focus on others can lead to neglecting personal needs, requiring balance for sustained well-being.",likes:"Helping growth, teamwork, shared purpose.",strengths:"Charisma, leadership, emotional intelligence.",growth:"May neglect own needs; balance ensures impact.",compatible:[{type:"INFP",desc:"Depth and emotional warmth."},{type:"INFJ",desc:"Empathy and purpose values."},{type:"ENTP",desc:"Creative collaboration energy."},{type:"ENFP",desc:"Optimism and people focus."}],incompatible:[{type:"ISTP",desc:"Independence vs. group harmony."},{type:"INTP",desc:"Detached vs. emotional ENFJ."}],famous:["Amanda Bynes","Bill Russell","Brene Brown","Britney Spears","Captain Paul Watson","Carole Baskin","Dalai Lama","David Blaine","Delilah Rene","Hilary Duff"],careers:[{title:"Teacher",why:"Encourages through structure.",salary:"$50K - $100K"},{title:"HR Manager",why:"Connects talent to opportunity.",salary:"$70K - $140K"},{title:"PR Director",why:"Motivates and unites messages.",salary:"$80K - $160K"},{title:"Therapist",why:"Guides emotional growth.",salary:"$60K - $120K"},{title:"Fundraiser",why:"Mobilizes for meaningful causes.",salary:"$60K - $120K"},{title:"Politician",why:"Leads with empathy/vision.",salary:"$100K - $200K"},{title:"Executive Coach",why:"Empowers through insight.",salary:"$80K - $160K"},{title:"Marketing Director",why:"Emotional appeal creativity.",salary:"$90K - $180K"},{title:"Social Worker",why:"Compassion into action.",salary:"$50K - $90K"},{title:"Community Organizer",why:"Builds bridges to goals.",salary:"$50K - $100K"},{title:"Nonprofit Leader",why:"Inspires collective purpose.",salary:"$70K - $140K"},{title:"Event Coordinator",why:"Creates connecting experiences.",salary:"$50K - $100K"},{title:"Counselor",why:"Emotional intelligence guidance.",salary:"$50K - $100K"},{title:"Public Speaker",why:"Motivates with charisma.",salary:"$60K - $150K"},{title:"Training Manager",why:"Develops team potential.",salary:"$70K - $140K"},{title:"Diplomat",why:"Builds international harmony.",salary:"$100K - $200K"},{title:"Youth Mentor",why:"Shapes future leaders.",salary:"$50K - $100K"},{title:"Sales Trainer",why:"Inspires team performance.",salary:"$70K - $140K"},{title:"Customer Success Manager",why:"Builds lasting relationships.",salary:"$80K - $160K"},{title:"Diversity Officer",why:"Promotes inclusive cultures.",salary:"$80K - $160K"}],prep:"Develop leadership through mentoring. Study psychology/communications/education."},
+    ENFP:{title:"The Campaigner",subtitle:"Energetic • Creative • Curious",summary:"ENFPs are enthusiastic innovators who bring creativity and positivity to every situation, inspiring others with their imaginative ideas. They thrive on exploring possibilities and connecting with people, often excelling in dynamic environments that allow freedom and expression. Adaptable and empathetic, ENFPs are skilled at seeing the big picture and motivating teams toward exciting goals. They value authenticity and growth, pursuing passions that align with their ideals. However, their spontaneity can lead to scattered focus, benefiting from structure to complete projects.",likes:"Freedom, creativity, meaningful relationships.",strengths:"Optimism, communication, empathy.",growth:"Can overcommit; focus realizes dreams.",compatible:[{type:"INFJ",desc:"Depth and imagination shared."},{type:"ENTP",desc:"Enthusiasm and exploration match."},{type:"INTJ",desc:"Structure to ENFP energy."},{type:"ENFJ",desc:"Passion for connection/growth."}],incompatible:[{type:"ISTJ",desc:"Tradition vs. spontaneity."},{type:"ESTJ",desc:"Too spontaneous for ESTJ."}],famous:["Alex Jones","Alexander Volkanovski","Andrew Huberman","Andrew Zimmern","Becky G","Bill Hader","Bryn Kenney","Casey Neistat","Cedric Bixler-Zavala","Chester Bennington"],careers:[{title:"Creative Director",why:"Inspiration and imagination lead.",salary:"$80K - $170K"},{title:"Marketing Specialist",why:"Dynamic people-focused work.",salary:"$60K - $130K"},{title:"Actor",why:"Emotion and story expressed.",salary:"$50K - $150K"},{title:"Writer",why:"Ideas that move and inspire.",salary:"$50K - $110K"},{title:"Teacher",why:"Encourages creativity in others.",salary:"$50K - $100K"},{title:"Public Speaker",why:"Passion motivates audiences.",salary:"$60K - $150K"},{title:"Event Planner",why:"Ideas into experiences.",salary:"$50K - $100K"},{title:"Counselor",why:"Understanding and warmth connect.",salary:"$50K - $100K"},{title:"Journalist",why:"Curiosity explores stories.",salary:"$50K - $110K"},{title:"Social Media Manager",why:"Storytelling and engagement.",salary:"$50K - $110K"},{title:"Entrepreneur",why:"Passion drives new ventures.",salary:"$80K - $200K"},{title:"Photographer",why:"Captures emotion vibrantly.",salary:"$40K - $100K"},{title:"Graphic Designer",why:"Visual storytelling mastery.",salary:"$50K - $100K"},{title:"Travel Writer",why:"Explores and shares adventures.",salary:"$50K - $110K"},{title:"Nonprofit Founder",why:"Champions meaningful causes.",salary:"$70K - $140K"},{title:"Advertising Copywriter",why:"Creative persuasion excels.",salary:"$60K - $130K"},{title:"Life Coach",why:"Inspires personal transformation.",salary:"$60K - $120K"},{title:"Tour Guide",why:"Shares enthusiasm for places.",salary:"$40K - $80K"},{title:"Youth Pastor",why:"Connects with passion and care.",salary:"$50K - $100K"},{title:"Brand Strategist",why:"Builds emotional connections.",salary:"$80K - $160K"}],prep:"Join theater/debate/creative writing. Explore entrepreneurship/community projects."},
+    ESFJ:{title:"The Caregiver",subtitle:"Warm • Responsible • Loyal",summary:"ESFJs are sociable and nurturing individuals who excel at creating harmony and supporting their communities. They thrive in structured social environments where they can organize events and help others feel included and valued. Practical and empathetic, ESFJs are attentive to details that enhance relationships and traditions. They value cooperation and loyalty, often taking on roles that involve service and coordination. However, their desire for approval can lead to overcommitment, benefiting from setting personal boundaries.",likes:"Stability, cooperation, community.",strengths:"Empathy, organization, dependability.",growth:"May take criticism personally; confidence builds resilience.",compatible:[{type:"ISFP",desc:"Warmth and compassion shared."},{type:"ESFP",desc:"Fun and social connection."},{type:"ENFJ",desc:"People and growth focus."},{type:"ISTJ",desc:"Practicality and empathy balance."}],incompatible:[{type:"INTP",desc:"Logic vs. emotional harmony."},{type:"INTJ",desc:"Planning and emotion differ."}],famous:["Aamir Khan","Andrew Scott","Andy Kaufman","Arno Wingen","Austin (The ACE Family)","Beau Mirchoff","Ben Affleck","Ben Stiller","Big Ed","Brian Rose"],careers:[{title:"Nurse",why:"Hands-on care with compassion.",salary:"$60K - $120K"},{title:"Teacher",why:"Structured student growth.",salary:"$50K - $100K"},{title:"Office Manager",why:"Organizes and supports teams.",salary:"$50K - $100K"},{title:"Customer Service Rep",why:"Solves problems helpfully.",salary:"$35K - $70K"},{title:"Healthcare Administrator",why:"Efficiency with empathy.",salary:"$80K - $150K"},{title:"Event Coordinator",why:"Connects people through events.",salary:"$50K - $100K"},{title:"HR Specialist",why:"Ensures workplace well-being.",salary:"$60K - $120K"},{title:"Social Worker",why:"Care and advocacy improve lives.",salary:"$50K - $90K"},{title:"Realtor",why:"Guides with warmth and trust.",salary:"$50K - $120K"},{title:"Therapist",why:"Emotional support and structure.",salary:"$60K - $120K"},{title:"Flight Attendant",why:"Service with warm professionalism.",salary:"$50K - $100K"},{title:"Fundraiser",why:"Builds community support.",salary:"$60K - $120K"},{title:"Wedding Planner",why:"Creates perfect celebrations.",salary:"$50K - $100K"},{title:"Bank Manager",why:"Reliable community service.",salary:"$70K - $140K"},{title:"Youth Group Leader",why:"Nurtures young people.",salary:"$40K - $80K"},{title:"Restaurant Host",why:"Creates welcoming atmosphere.",salary:"$30K - $60K"},{title:"Insurance Agent",why:"Protects families reliably.",salary:"$50K - $110K"},{title:"Tour Coordinator",why:"Organizes memorable trips.",salary:"$50K - $100K"},{title:"Office Receptionist",why:"Warm first impressions.",salary:"$35K - $70K"},{title:"Volunteer Coordinator",why:"Builds community teams.",salary:"$45K - $90K"}],prep:"Join service/volunteering groups. Study health/psychology/education."},
+    ISFP:{title:"The Artist",subtitle:"Gentle • Sensitive • Free-spirited",summary:"ISFPs are artistic and sensitive souls who value authenticity and personal expression through creative outlets. They thrive in flexible environments where they can explore beauty and harmony at their own pace. Empathetic and observant, ISFPs are attuned to their surroundings and often channel emotions into art or hands-on activities. They prefer meaningful connections over superficial ones, cherishing freedom and spontaneity. However, their aversion to conflict can hinder assertiveness, benefiting from confidence-building to advocate for themselves.",likes:"Freedom, creativity, peaceful environments.",strengths:"Kindness, artistry, adaptability.",growth:"May avoid conflict; confidence strengthens expression.",compatible:[{type:"ESFP",desc:"Excitement and authenticity love."},{type:"INFP",desc:"Deep shared values connection."},{type:"ISFJ",desc:"Creativity with care support."},{type:"ENFP",desc:"Adventurous side brought out."}],incompatible:[{type:"ENTJ",desc:"Pressure from ENTJ intensity."},{type:"INTJ",desc:"Structure vs. spontaneity clash."}],famous:["Aaliyah","Ari Herstand","Ariana Grande","Ashanti","Avicii","Barry White","Big Fendi","Blueface","Bob Marley","Bob Ross"],careers:[{title:"Graphic Designer",why:"Creativity expressed visually.",salary:"$50K - $100K"},{title:"Photographer",why:"Captures emotion and beauty.",salary:"$40K - $100K"},{title:"Chef",why:"Art through food and taste.",salary:"$50K - $110K"},{title:"Musician",why:"Melody and rhythm communication.",salary:"$40K - $120K"},{title:"Interior Designer",why:"Spaces transformed artistically.",salary:"$50K - $110K"},{title:"Veterinarian",why:"Empathy cares for animals.",salary:"$80K - $150K"},{title:"Fashion Designer",why:"Wearable art created.",salary:"$50K - $110K"},{title:"Massage Therapist",why:"Calm and healing brought.",salary:"$40K - $90K"},{title:"Wildlife Photographer",why:"Art and adventure blend.",salary:"$40K - $100K"},{title:"Florist",why:"Nature and emotion designed.",salary:"$40K - $80K"},{title:"Jewelry Designer",why:"Delicate beauty crafted.",salary:"$45K - $100K"},{title:"Makeup Artist",why:"Enhances natural beauty.",salary:"$40K - $90K"},{title:"Art Therapist",why:"Healing through creative expression.",salary:"$50K - $100K"},{title:"Landscape Architect",why:"Beauty in natural spaces.",salary:"$60K - $130K"},{title:"Voice Actor",why:"Emotion through sound.",salary:"$50K - $120K"},{title:"Book Illustrator",why:"Visual stories created.",salary:"$45K - $100K"},{title:"Textile Designer",why:"Patterns with personal touch.",salary:"$50K - $110K"},{title:"Animal Trainer",why:"Gentle bonds with creatures.",salary:"$40K - $90K"},{title:"Spa Therapist",why:"Creates peaceful experiences.",salary:"$40K - $80K"},{title:"Craft Brewer",why:"Artisanal taste creation.",salary:"$50K - $110K"}],prep:"Explore art/design/music. Volunteer creative community projects."},
+    INFP:{title:"The Idealist",subtitle:"Compassionate • Imaginative • Loyal to Values",summary:"INFPs are introspective dreamers guided by strong personal values and a quest for authenticity. They excel in creative pursuits where they can express their ideals and empathy through writing, art, or advocacy. Sensitive and imaginative, INFPs seek meaning in life, often championing causes that align with their moral compass. They form deep, loyal relationships but prefer solitude to recharge their inner world. However, their idealism can lead to disappointment with reality, benefiting from practical strategies to realize their visions.",likes:"Freedom, creativity, harmony.",strengths:"Empathy, creativity, resilience.",growth:"Struggles with criticism; confidence helps realization.",compatible:[{type:"ENFJ",desc:"Support and direction for ideals."},{type:"INFJ",desc:"Introspection and imagination shared."},{type:"ENFP",desc:"Creativity with optimism balance."},{type:"ENTP",desc:"Ideas and open-mindedness stimulated."}],incompatible:[{type:"ESTJ",desc:"Flexibility frustrates ESTJ."},{type:"ISTJ",desc:"Structure feels restrictive."}],famous:["Adyashanti","Alan Watts","Ana Nicole Smith","Andy Warhol","Angela Merkel","Birdy (singer)","Björk","Bruno Mars","Cornel West","Danny Elfman"],careers:[{title:"Writer",why:"Values and imagination expressed.",salary:"$50K - $110K"},{title:"Counselor",why:"Understanding and comfort provided.",salary:"$50K - $100K"},{title:"Graphic Artist",why:"Ideals into visual form.",salary:"$50K - $100K"},{title:"Editor",why:"Creative messages shaped.",salary:"$50K - $110K"},{title:"Teacher",why:"Compassion inspires growth.",salary:"$50K - $100K"},{title:"Social Worker",why:"Empathy helps others.",salary:"$50K - $90K"},{title:"Psychologist",why:"Emotion and identity understood.",salary:"$80K - $150K"},{title:"Musician",why:"Emotion channeled into expression.",salary:"$40K - $120K"},{title:"Therapist",why:"Healing through connection.",salary:"$60K - $120K"},{title:"Nonprofit Director",why:"Causes aligned with values.",salary:"$70K - $140K"},{title:"Librarian",why:"Curates meaningful stories.",salary:"$50K - $90K"},{title:"Poet",why:"Deep emotions beautifully shared.",salary:"$40K - $100K"},{title:"Filmmaker",why:"Stories that touch hearts.",salary:"$60K - $140K"},{title:"Museum Curator",why:"Preserves cultural meaning.",salary:"$50K - $110K"},{title:"Yoga Instructor",why:"Guides inner peace journeys.",salary:"$40K - $90K"},{title:"Grant Writer",why:"Secures funding for causes.",salary:"$50K - $110K"},{title:"Animal Rights Advocate",why:"Compassion for all beings.",salary:"$50K - $100K"},{title:"Spiritual Counselor",why:"Guides soulful growth.",salary:"$50K - $100K"},{title:"Children's Book Author",why:"Imagination for young minds.",salary:"$50K - $110K"},{title:"Environmental Educator",why:"Teaches harmony with nature.",salary:"$50K - $100K"}],prep:"Join creative writing/art/service clubs. Journal and tell stories."},
+    ESTJ:{title:"The Supervisor",subtitle:"Organized • Practical • Decisive",summary:"ESTJs are efficient organizers who lead with clarity and a focus on results in structured settings. They thrive on responsibility, using their practical mindset to implement plans and maintain order. Decisive and straightforward, ESTJs excel at managing teams and enforcing standards for productivity. They value tradition and loyalty, often upholding systems that promote stability and success. However, their directness can seem inflexible, benefiting from openness to new ideas and empathy.",likes:"Tradition, leadership, clear results.",strengths:"Reliability, focus, confidence.",growth:"May seem inflexible; open-mindedness enhances leadership.",compatible:[{type:"ISTJ",desc:"Practicality and structure shared."},{type:"ESFJ",desc:"Organization with empathy balance."},{type:"ENTJ",desc:"Effective goal collaboration."},{type:"ESTP",desc:"Discipline with energy balance."}],incompatible:[{type:"INFP",desc:"Structure vs. creativity clash."},{type:"ENFP",desc:"Spontaneity over order preferred."}],famous:["Al Gore","Andy from KillYourInnerLoser","Arsene Wenger","Ashley Johnson","Barack Obama","Bono","Brad Pitt","Brian Tracy","Caitlyn Jenner","Chelsey \"Sully\" Sullenberger"],careers:[{title:"Manager",why:"Leads teams efficiently.",salary:"$80K - $160K"},{title:"Police Officer",why:"Upholds structure and duty.",salary:"$50K - $100K"},{title:"Project Manager",why:"Keeps goals on track.",salary:"$80K - $160K"},{title:"Accountant",why:"Accuracy and consistency ensured.",salary:"$60K - $130K"},{title:"Engineer",why:"Logic organizes systems.",salary:"$80K - $160K"},{title:"Lawyer",why:"Rules and order applied.",salary:"$120K - $250K"},{title:"Military Officer",why:"Disciplined leadership excels.",salary:"$60K - $120K"},{title:"Operations Director",why:"Systems optimized smoothly.",salary:"$90K - $180K"},{title:"Auditor",why:"Accountability maintained.",salary:"$60K - $130K"},{title:"Principal",why:"Leads education clearly.",salary:"$90K - $150K"},{title:"Sales Manager",why:"Drives team performance.",salary:"$90K - $180K"},{title:"Logistics Supervisor",why:"Coordinates efficient flow.",salary:"$60K - $120K"},{title:"Facilities Manager",why:"Maintains operational order.",salary:"$70K - $140K"},{title:"Compliance Officer",why:"Enforces regulations strictly.",salary:"$70K - $140K"},{title:"Store Manager",why:"Creates productive environments.",salary:"$50K - $110K"},{title:"Coach",why:"Discipline builds winning teams.",salary:"$50K - $100K"},{title:"Real Estate Agent",why:"Organizes property transactions.",salary:"$50K - $120K"},{title:"Insurance Broker",why:"Protects with clear policies.",salary:"$60K - $130K"},{title:"Executive Assistant",why:"Keeps leaders organized.",salary:"$50K - $100K"},{title:"Quality Control Supervisor",why:"Standards consistently met.",salary:"$60K - $120K"}],prep:"Join leadership programs, manage projects. Study business/law."},
+    ESFP:{title:"The Performer",subtitle:"Outgoing • Fun • Expressive",summary:"ESFPs are vibrant entertainers who live in the moment, bringing joy and spontaneity to social interactions. They thrive on excitement and sensory experiences, excelling in roles that involve performance or hands-on creativity. Charismatic and adaptable, ESFPs connect easily with others, using their empathy to create fun and inclusive atmospheres. They value freedom and variety, often pursuing adventures that inspire them. However, their impulsiveness can overlook long-term planning, benefiting from structure to achieve stability.",likes:"Adventure, people, freedom.",strengths:"Charm, adaptability, enthusiasm.",growth:"Avoids long-term planning; consistency deepens success.",compatible:[{type:"ISFP",desc:"Creativity and beauty love."},{type:"ESFJ",desc:"Warmth and energy balance."},{type:"ENFP",desc:"Spontaneity and joy connect."},{type:"ESTP",desc:"Adventurous energy matched."}],incompatible:[{type:"INTJ",desc:"Too impulsive for INTJ."},{type:"ISTJ",desc:"Order vs. predictability preferred."}],famous:["Adam Lambert","Alexandria Ocasio-Cortez","Alexia Demie","Ant McPartlin","Arin Hanson","Aubrey O’day","Azriel Clary","Barrett Pall","Bazzi (Andrew Bazzi)","Billy Gene"],careers:[{title:"Actor",why:"Performing and entertaining enjoyed.",salary:"$50K - $150K"},{title:"Musician",why:"Sound and rhythm expressed.",salary:"$40K - $120K"},{title:"Event Planner",why:"Delightful experiences created.",salary:"$50K - $100K"},{title:"Sales Rep",why:"Personality engages clients.",salary:"$50K - $120K"},{title:"Photographer",why:"Vibrant moments captured.",salary:"$40K - $100K"},{title:"Flight Attendant",why:"Adventure with service.",salary:"$50K - $100K"},{title:"Tour Guide",why:"Exciting journeys led.",salary:"$40K - $80K"},{title:"Personal Trainer",why:"Energy encourages others.",salary:"$40K - $90K"},{title:"Stylist",why:"Individuality expressed.",salary:"$40K - $90K"},{title:"Interior Decorator",why:"Life-filled spaces designed.",salary:"$50K - $110K"},{title:"Restaurant Server",why:"Warm hospitality delivered.",salary:"$30K - $60K"},{title:"Dancer",why:"Movement and expression shared.",salary:"$40K - $100K"},{title:"TV Host",why:"Charisma shines on camera.",salary:"$60K - $150K"},{title:"Bartender",why:"Social atmosphere created.",salary:"$30K - $70K"},{title:"Real Estate Agent",why:"Enthusiasm sells homes.",salary:"$50K - $120K"},{title:"Makeup Artist",why:"Beauty transformations done.",salary:"$40K - $90K"},{title:"Fitness Instructor",why:"Fun group energy led.",salary:"$40K - $90K"},{title:"Travel Agent",why:"Adventures planned excitedly.",salary:"$40K - $90K"},{title:"Promoter",why:"Events that excite organized.",salary:"$50K - $110K"},{title:"Voiceover Artist",why:"Personality through sound.",salary:"$50K - $120K"}],prep:"Join theater/performance clubs. Volunteer at events, explore arts."},
+    ESTP:{title:"The Dynamo",subtitle:"Bold • Practical • Energetic",summary:"ESTPs are action-oriented adventurers who thrive on thrill and quick decision-making in dynamic situations. They excel at hands-on problem-solving, using their resourcefulness and charm to navigate challenges effectively. Observant and adaptable, ESTPs enjoy social interactions and often take risks to seize opportunities. They value freedom and results, preferring environments that allow spontaneity and excitement. However, their impulsivity can overlook consequences, benefiting from reflection for better outcomes.",likes:"Adventure, spontaneity, results.",strengths:"Courage, resourcefulness, quick thinking.",growth:"Can be impulsive; reflection enhances success.",compatible:[{type:"ESFP",desc:"Zest for life and fun shared."},{type:"ISTP",desc:"Logic and spontaneity balance."},{type:"ENTP",desc:"Energy and risk-taking matched."},{type:"ESTJ",desc:"Structure and action combined."}],incompatible:[{type:"INFJ",desc:"Reflection vs. fast action."},{type:"INFP",desc:"Emotion overwhelms logic."}],famous:["Aaron Rodgers","Adam22","Alex Hormozi","Amber Rose","Amy Lee","Andrew Callaghan","Anthony Jeselnick","Anton LaVey","Austin Dunham","Bones"],careers:[{title:"Entrepreneur",why:"Bold ideas into action.",salary:"$80K - $200K"},{title:"Emergency Responder",why:"Quick action in crises.",salary:"$50K - $100K"},{title:"Police Officer",why:"Action and teamwork thrive.",salary:"$50K - $100K"},{title:"Sales Executive",why:"Dynamic persuasion excels.",salary:"$70K - $150K"},{title:"Mechanic",why:"Hands-on skill solving.",salary:"$45K - $90K"},{title:"Pilot",why:"Focus and flight thrill.",salary:"$80K - $200K"},{title:"Sports Coach",why:"Motivation and energy led.",salary:"$50K - $100K"},{title:"Detective",why:"Fast-paced problem solving.",salary:"$60K - $120K"},{title:"Contractor",why:"Logic and precision projects.",salary:"$60K - $130K"},{title:"Paramedic",why:"Calm decisiveness under pressure.",salary:"$45K - $90K"},{title:"Stock Trader",why:"Quick decisions in action.",salary:"$80K - $200K"},{title:"Rally Driver",why:"Thrill and skill combined.",salary:"$50K - $150K"},{title:"Marketing Rep",why:"Persuasive energy sells.",salary:"$60K - $130K"},{title:"Stunt Performer",why:"Bold action mastered.",salary:"$50K - $150K"},{title:"Real Estate Flipper",why:"Fast property deals.",salary:"$60K - $150K"},{title:"Firefighter",why:"Courage in emergencies.",salary:"$50K - $100K"},{title:"Race Car Mechanic",why:"Speed and precision work.",salary:"$50K - $100K"},{title:"Negotiator",why:"Quick thinking wins deals.",salary:"$70K - $140K"},{title:"Adventure Guide",why:"Thrilling experiences led.",salary:"$40K - $90K"},{title:"Product Demonstrator",why:"Enthusiasm sells products.",salary:"$40K - $80K"}],prep:"Pursue sports/mechanics/business projects. Plan for long-term results."},
+    ISTP:{title:"The Craftsman",subtitle:"Practical • Independent • Problem-solver",summary:"ISTPs are analytical mechanics who enjoy tinkering and understanding how things work through hands-on exploration. They thrive in independent settings where they can apply logic and skill to solve practical problems efficiently. Resourceful and calm under pressure, ISTPs adapt quickly to new situations with a focus on facts and functionality. They value freedom and competence, often pursuing hobbies that involve tools or adventure. However, their reserved nature can limit social connections, benefiting from openness to build relationships.",likes:"Freedom, practical challenges, independence.",strengths:"Resourcefulness, logic, adaptability.",growth:"May avoid planning; organization enhances skills.",compatible:[{type:"ESTP",desc:"Adventurous hands-on energy."},{type:"ISTJ",desc:"Practicality with structure."},{type:"INTP",desc:"Logical problem-solving connection."},{type:"ESFP",desc:"Fun and spontaneity added."}],incompatible:[{type:"ENFJ",desc:"Group harmony vs. independence."},{type:"ESFJ",desc:"Too detached for ESFJ."}],famous:["Alex Chilton","Alex Kapranos","Axl Rose","Babyface","Bill Burr","Billie Eilish","Bob Odenkirk","Brett Michaels","Bruce Springsteen","CM Punk"],careers:[{title:"Mechanic",why:"Complex systems diagnosed/fixed.",salary:"$45K - $90K"},{title:"Software Developer",why:"Logical solutions built.",salary:"$80K - $170K"},{title:"Pilot",why:"Precision with adventure.",salary:"$80K - $200K"},{title:"Forensic Scientist",why:"Evidence analyzed methodically.",salary:"$60K - $120K"},{title:"Electrician",why:"Hands-on problem solving.",salary:"$50K - $100K"},{title:"Carpenter",why:"Practical skills crafted.",salary:"$45K - $90K"},{title:"Surgeon",why:"Precision under pressure.",salary:"$200K - $400K"},{title:"Game Designer",why:"Logic and creativity blend.",salary:"$70K - $150K"},{title:"Welder",why:"Technical skill mastery.",salary:"$45K - $90K"},{title:"Drone Operator",why:"Tech and independence.",salary:"$50K - $110K"},{title:"Locksmith",why:"Problem-solving puzzles.",salary:"$45K - $90K"},{title:"Technical Support",why:"Fixes systems efficiently.",salary:"$50K - $100K"},{title:"Archaeologist",why:"Hands-on history discovery.",salary:"$50K - $110K"},{title:"Instrument Technician",why:"Precision instrument work.",salary:"$50K - $100K"},{title:"Park Ranger",why:"Outdoor practical skills.",salary:"$45K - $90K"},{title:"Robotics Technician",why:"Builds and repairs robots.",salary:"$60K - $120K"},{title:"Scuba Instructor",why:"Adventure with safety.",salary:"$40K - $90K"},{title:"Gun Smith",why:"Detailed craftsmanship.",salary:"$45K - $90K"},{title:"Network Engineer",why:"Systems kept running.",salary:"$80K - $160K"},{title:"Restoration Specialist",why:"Revives objects skillfully.",salary:"$50K - $100K"}],prep:"Join robotics/auto/aviation clubs. Practice troubleshooting projects."},
+    INTP:{title:"The Thinker",subtitle:"Curious • Analytical • Independent",summary:"INTPs are innovative logicians who delve deeply into theories and systems to understand the underlying principles of the world. They thrive on intellectual pursuits, often spending time analyzing complex problems with originality and precision. Independent and objective, INTPs value truth and efficiency, excelling in fields that require abstract thinking and creativity. They are adaptable thinkers who enjoy exploring ideas without constraints. However, their focus on logic can overlook social nuances, benefiting from developing interpersonal skills for collaboration.",likes:"Knowledge, independence, logical challenges.",strengths:"Creativity, analysis, objectivity.",growth:"May procrastinate; focus turns ideas into action.",compatible:[{type:"ENTJ",desc:"Structure to INTP ideas."},{type:"INTJ",desc:"Intellectual depth and vision."},{type:"ENTP",desc:"Creative debates sparked."},{type:"INFJ",desc:"Logic with insight balance."}],incompatible:[{type:"ESFJ",desc:"Harmony vs. abstract theory."},{type:"ESTJ",desc:"Too unstructured for ESTJ."}],famous:["Aajonus Vonderplanitz","Aaron Kyro","Ammar Al-Sabban","Asmongold","Bart Ehrman","Benedict Cumberbatch","Bill Gates","Bill Withers","Bobby Fischer","Bobby Kotick"],careers:[{title:"Research Scientist",why:"Explores complex questions.",salary:"$75K - $160K"},{title:"Software Engineer",why:"Solves logical problems.",salary:"$80K - $170K"},{title:"Philosopher",why:"Analyzes fundamental ideas.",salary:"$60K - $130K"},{title:"Data Analyst",why:"Finds patterns in data.",salary:"$55K - $120K"},{title:"Mathematician",why:"Solves abstract problems.",salary:"$80K - $180K"},{title:"Architect",why:"Designs with logic and form.",salary:"$75K - $160K"},{title:"Physicist",why:"Models the natural world.",salary:"$45K - $110K"},{title:"Linguist",why:"Decodes language systems.",salary:"$55K - $115K"},{title:"Cryptographer",why:"Protects information.",salary:"$85K - $180K"},{title:"Economist",why:"Models systems and trends.",salary:"$70K - $160K"},{title:"AI Researcher",why:"Builds intelligent systems.",salary:"$100K - $200K"},{title:"Academic Professor",why:"Shares knowledge deeply.",salary:"$70K - $150K"},{title:"Bioinformatician",why:"Combines biology and data.",salary:"$85K - $165K"},{title:"Quantum Computing Specialist",why:"Explores frontier tech.",salary:"$110K - $210K"},{title:"Patent Examiner",why:"Assesses innovations.",salary:"$80K - $150K"},{title:"Science Writer",why:"Explains complex ideas.",salary:"$55K - $115K"},{title:"Theoretical Chemist",why:"Develops molecular theory.",salary:"$80K - $170K"},{title:"Game Theory Analyst",why:"Builds strategic models.",salary:"$80K - $170K"},{title:"Systems Architect",why:"Designs complex IT.",salary:"$100K - $200K"},{title:"Logic Puzzle Designer",why:"Creates intellectual challenges.",salary:"$50K - $110K"}],prep:"Join debate/science fair/coding clubs. Read widely and question everything."}
+};
+
+// Print handler
+document.getElementById('savePdf').addEventListener('click', () => {
+  const name = document.getElementById('studentName').value || 'Student';
+  if (!name.trim()) alert('Please enter student name before printing!');
+  else window.print();
+});
+
+// Set default date
+document.getElementById('reportDate').value = new Date().toLocaleDateString();
+</script>
+</body>
+</html>
